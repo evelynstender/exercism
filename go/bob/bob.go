@@ -1,15 +1,32 @@
-// This is a "stub" file.  It's a little start on your solution.
-// It's not a complete solution though; you have to write some code.
-
-// Package bob should have a package comment that summarizes what it's about.
-// https://golang.org/doc/effective_go.html#commentary
+/*
+Package bob implements what bob would say to you
+*/
 package bob
 
-// Hey should have a comment documenting it.
+import (
+	"regexp"
+	"strings"
+)
+
+var atLeastOneAlphaCharacter = regexp.MustCompile(`.*[a-zA-Z]+.*`)
+
+// Hey shows bob's response to your stupid questions
 func Hey(remark string) string {
-	// Write some code here to pass the test suite.
-	// Then remove all the stock comments.
-	// They're here to help you get started but they only clutter a finished solution.
-	// If you leave them in, reviewers may protest!
-	return ""
+	remark = strings.TrimSpace(remark)
+
+	switch true {
+	case strings.TrimSpace(remark) == "":
+		return "Fine. Be that way!"
+	case !atLeastOneAlphaCharacter.MatchString(remark) && !strings.Contains(strings.ToUpper(remark), remark):
+		return "Whatever."
+	case strings.HasSuffix(remark, "?") && strings.Contains(strings.ToUpper(remark), remark) && atLeastOneAlphaCharacter.MatchString(remark):
+		return "Calm down, I know what I'm doing!"
+	case strings.HasSuffix(remark, "?"):
+		return "Sure."
+	case strings.ToUpper(remark) == remark && atLeastOneAlphaCharacter.MatchString(remark):
+		return "Whoa, chill out!"
+
+	default:
+		return "Whatever."
+	}
 }
